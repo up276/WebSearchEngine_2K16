@@ -66,7 +66,7 @@ class Document implements Serializable {
   private String _url = "";
 
   // Basic information for ranking
-  private float _pageRank = 0.0f;
+  private Double _pageRank = 0.0;
   private int _numViews = 0;
 
   public Document(int docid) {
@@ -89,11 +89,11 @@ class Document implements Serializable {
     this._url = url;
   }
 
-  public float getPageRank() {
+  public Double getPageRank() {
     return _pageRank;
   }
 
-  public void setPageRank(float pageRank) {
+  public void setPageRank(Double pageRank) {
     this._pageRank = pageRank;
   }
 

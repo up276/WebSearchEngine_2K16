@@ -24,6 +24,7 @@ class RankerFullScan extends Ranker {
   @Override
   public Vector<ScoredDocument> runQuery(Query query, int numResults) {    
     Vector<ScoredDocument> all = new Vector<ScoredDocument>();
+    
     for (int i = 0; i < _indexer.numDocs(); ++i) {
       all.add(scoreDocument(query, i));
     }
@@ -36,8 +37,6 @@ class RankerFullScan extends Ranker {
   }
 
   private ScoredDocument scoreDocument(Query query, int did) {
-    // Process the raw query into tokens.
-    query.processQuery();
 
     // Get the document tokens.
     Document doc = _indexer.getDoc(did);
@@ -57,6 +56,6 @@ class RankerFullScan extends Ranker {
         break;
       }
     }
-    return new ScoredDocument(doc, score);
+    return new ScoredDocument(query._query,doc, score);
   }
 }

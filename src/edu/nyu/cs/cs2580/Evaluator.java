@@ -53,7 +53,8 @@ class Evaluator {
     evaluateStdin(judgments);
   }
 
-  public static void readRelevanceJudgments(
+  @SuppressWarnings("resource")
+public static void readRelevanceJudgments(
       String judgeFile, Map<String, DocumentRelevances> judgements)
       throws IOException {
     String line = null;
@@ -73,7 +74,8 @@ class Evaluator {
     reader.close();
   }
 
-  public static void evaluateStdin(Map<String, DocumentRelevances> judgments)
+  @SuppressWarnings("resource")
+public static void evaluateStdin(Map<String, DocumentRelevances> judgments)
       throws IOException {
     BufferedReader reader =
         new BufferedReader(new InputStreamReader(System.in));

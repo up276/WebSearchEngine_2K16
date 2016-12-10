@@ -6,6 +6,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.security.NoSuchAlgorithmException;
 
 import edu.nyu.cs.cs2580.SearchEngine.Options;
 
@@ -48,6 +49,7 @@ public abstract class CorpusAnalyzer {
       if (line != null) {
         _matcher = LINK_PATTERN.matcher(line);
       }
+
     }
 
     // Returns the simple file name as the link source.
@@ -93,9 +95,10 @@ public abstract class CorpusAnalyzer {
     _options = options;
   }
   
+  public CorpusAnalyzer(){}
   // Processes the corpus and prepare necessary internal data structure for the
   // compute function below.
-  public abstract void prepare() throws IOException;
+  public abstract void prepare() throws IOException, NoSuchAlgorithmException;
 
   // Computes the desired measure based on the internal data structure created
   // by the prepare function above. Store the results to be used by Indexer in
@@ -104,7 +107,7 @@ public abstract class CorpusAnalyzer {
 
   // Loads the stored analysis results computed by the compute function above.
   // Called during indexing mode.
-  public abstract Object load() throws IOException;
+  public abstract Object load() throws IOException, ClassNotFoundException;
 
   /**
    * All CorpusAnalyzers must be created through this factory class based on

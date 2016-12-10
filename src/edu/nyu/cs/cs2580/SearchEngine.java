@@ -66,8 +66,21 @@ public class SearchEngine {
     // The specific CorpusAnalyzer to be used.
     public String _corpusAnalyzerType = null;
 
+    // The specific value for lambda for PageRank.
+    public Float _lambda = null;
+
+    // Number of iterations to run for PageRank
+    public Integer _iterations = null;
+
     // The specific LogMiner to be used.
     public String _logMinerType = null;
+
+    // Number of top occurring words to keep from each document
+    public Integer _keepTerms = null;
+
+    // File that contains one stop word per line
+    public String _stopWordsList = null;
+
 
     // Additional group specific configuration can be added below.
 
@@ -110,9 +123,25 @@ public class SearchEngine {
       _corpusAnalyzerType = options.get("corpus_analyzer_type");
       Check(_corpusAnalyzerType != null,
           "Missing option: corpus_analyzer_type!");
+      
+      _lambda = Float.valueOf( options.get("lambda") );
+      Check(_lambda != null, 
+	    "Missing option: lambda");
+
+      _iterations = Integer.valueOf( options.get("iterations") );
+      Check(_iterations != null, 
+	    "Missing option: iterations");
 
       _logMinerType = options.get("log_miner_type");
       Check(_logMinerType != null, "Missing option: log_miner_type!");
+
+      _keepTerms = Integer.valueOf( options.get("keepTerms") );
+      Check(_keepTerms != null, 
+      "Missing option: keepTerms");
+
+      _stopWordsList = options.get("stopWordsList");
+      Check(_stopWordsList != null, 
+      "Missing option: stopWordsList");
     }
   }
   public static Options OPTIONS = null;
@@ -174,7 +203,7 @@ public class SearchEngine {
     Check(analyzer != null,
         "Analyzer " + SearchEngine.OPTIONS._corpusAnalyzerType + " not found!");
     analyzer.prepare();
-    analyzer.compute();
+   analyzer.compute();
 
     LogMiner miner = LogMiner.Factory.getLogMinerByOption(SearchEngine.OPTIONS);
     Check(miner != null,
@@ -183,7 +212,7 @@ public class SearchEngine {
     return;
   }
   
-  private static void startIndexing() throws IOException {
+  private static void startIndexing() throws IOException, ClassNotFoundException {
     Indexer indexer = Indexer.Factory.getIndexerByOption(SearchEngine.OPTIONS);
     Check(indexer != null,
         "Indexer " + SearchEngine.OPTIONS._indexerType + " not found!");
